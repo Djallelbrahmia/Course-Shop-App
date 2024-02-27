@@ -4,11 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_bloc.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_events.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_states.dart';
+import 'package:shop_app/Presentation/views/home/home_page.dart';
 import 'package:shop_app/common/values/colors.dart';
 
 Widget buildPage(int index) {
   List<Widget> _widget = [
-    Center(child: Text("Home")),
+    HomePage(),
     Center(child: Text("Search")),
     Center(child: Text("Course")),
     Center(child: Text("Chat")),

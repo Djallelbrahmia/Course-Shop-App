@@ -84,7 +84,8 @@ class _RegisterViewState extends State<RegisterView> {
                               .read<RegisterBloc>()
                               .add(RePasswordEvent(value));
                         }),
-                        reusbaleText("Enter your details and Sign up for free"),
+                        reusbaleText(
+                            "By Creating an account your agree in out terms and conditions"),
                       ],
                     ),
                   ),

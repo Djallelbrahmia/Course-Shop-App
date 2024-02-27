@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/Presentation/views/sign-in/bloc/signin_bloc.dart';
+import 'package:shop_app/common/values/constants.dart';
 import 'package:shop_app/common/widgets/toast.dart';
+import 'package:shop_app/global.dart';
 
 class SignInController {
   final BuildContext context;
@@ -31,10 +33,15 @@ class SignInController {
           return;
         }
         var user = credential.user;
-        if (user != null) {
+        if (user == null) {
           toastInfo(msg: "Wrong Credential");
           return;
-        } else {}
+        } else {
+          Global.storageService
+              .setString(AppConstants.USER_TOKEN_KEY, "123456789");
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/myHomePage', (route) => false);
+        }
       }
     } catch (e) {
       toastInfo(msg: "Something went wrong");
