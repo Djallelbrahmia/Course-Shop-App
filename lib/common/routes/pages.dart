@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/Presentation/views/application/application_page.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_bloc.dart';
+import 'package:shop_app/Presentation/views/home/bloc/home_bloc.dart';
+import 'package:shop_app/Presentation/views/home/home_page.dart';
+import 'package:shop_app/Presentation/views/profile/settings/bloc/settings_bloc.dart';
+import 'package:shop_app/Presentation/views/profile/settings/settings.dart';
 import 'package:shop_app/Presentation/views/register/bloc/register_bloc.dart';
 import 'package:shop_app/Presentation/views/register/register_view.dart';
 import 'package:shop_app/Presentation/views/sign-in/bloc/signin_bloc.dart';
@@ -30,13 +35,24 @@ class AppPages {
       page: ApplicationPage(),
       bloc: Null,
     ),
+    PageEntity(
+        route: AppRoutes.HOME_PAGE,
+        page: const HomePage(),
+        bloc: BlocProvider(create: (_) => HomePageBlocs())),
+    PageEntity(
+        route: AppRoutes.SETTINGS,
+        page: const SettingsView(),
+        bloc: BlocProvider(create: (_) => SettingsBlocs()))
   ];
   static get allBlocProviders => [
         BlocProvider(create: (context) => WelcomeBloc()),
         BlocProvider(create: (context) => SignInBloc()),
         BlocProvider(create: (context) => RegisterBloc()),
-        BlocProvider(create: (context) => AppBlocs())
+        BlocProvider(create: (context) => AppBlocs()),
+        BlocProvider(create: (context) => HomePageBlocs()),
+        BlocProvider(create: (context) => SettingsBlocs())
       ];
+
   static MaterialPageRoute GenerateRouteSettings(RouteSettings settings) {
     if (settings.name != null) {
       var result = routes.where((element) => element.route == settings.name);

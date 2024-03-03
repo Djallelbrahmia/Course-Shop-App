@@ -27,4 +27,8 @@ class StorageService {
   String getUserKey() {
     return _prefs.getString(AppConstants.USER_TOKEN_KEY) ?? "";
   }
+
+  Future<bool> remove(String key) {
+    return _prefs.remove(key);
+  }
 }
