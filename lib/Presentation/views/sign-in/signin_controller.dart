@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shop_app/Presentation/views/sign-in/bloc/signin_bloc.dart';
+import 'package:shop_app/common/apis/user_api.dart';
+import 'package:shop_app/common/entities/user.dart';
 import 'package:shop_app/common/values/constants.dart';
 import 'package:shop_app/common/widgets/toast.dart';
 import 'package:shop_app/global.dart';
@@ -37,14 +42,53 @@ class SignInController {
           toastInfo(msg: "Wrong Credential");
           return;
         } else {
-          Global.storageService
-              .setString(AppConstants.USER_TOKEN_KEY, "123456789");
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/myHomePage', (route) => false);
+          String? displayName = user.displayName;
+          String? email = user.email;
+          String? id = user.uid;
+          String? photoUrl = "${AppConstants.SERVER_URL}/uploads/default.png";
+          print(photoUrl);
+          await credential.user?.updatePhotoURL(photoUrl);
+          LoginRequestEntity loginRequestEntity = LoginRequestEntity(
+              avatar: photoUrl,
+              open_id: id,
+              name: displayName,
+              email: email,
+              type: 1);
+          asyncPostAllData(loginRequestEntity);
         }
       }
     } catch (e) {
       toastInfo(msg: "Something went wrong");
+    }
+  }
+
+  void asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
+    EasyLoading.show(
+      indicator: const CircularProgressIndicator(),
+      maskType: EasyLoadingMaskType.clear,
+      dismissOnTap: true,
+    );
+    var result = await UserAPI.login(param: loginRequestEntity);
+
+    print(result.code);
+    if (result.code == 200) {
+      try {
+        Global.storageService.setString(
+            AppConstants.USER_PROFILE_INFO, jsonEncode(result.data!));
+        Global.storageService
+            .setString(AppConstants.USER_TOKEN_KEY, result.data!.access_token!);
+        EasyLoading.dismiss();
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/myHomePage', (route) => false);
+      } catch (e) {
+        print(e);
+        toastInfo(msg: "Something went wrong");
+        EasyLoading.dismiss();
+      }
+    } else {
+      toastInfo(msg: "Something went wrong");
+
+      EasyLoading.dismiss();
     }
   }
 }

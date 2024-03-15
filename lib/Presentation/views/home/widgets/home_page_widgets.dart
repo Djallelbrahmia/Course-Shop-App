@@ -6,10 +6,12 @@ import 'package:shop_app/Presentation/views/common_widgets.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_bloc.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_events.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_states.dart';
+import 'package:shop_app/common/entities/entities.dart';
 import 'package:shop_app/common/values/colors.dart';
+import 'package:shop_app/common/values/constants.dart';
 import 'package:shop_app/common/widgets/base_text_widget.dart';
 
-AppBar buildHomeAppBar() {
+AppBar buildHomeAppBar(String img) {
   return AppBar(
     title: Container(
       margin: EdgeInsets.only(left: 7.w, right: 7.w),
@@ -27,9 +29,8 @@ AppBar buildHomeAppBar() {
             child: Container(
               width: 40.w,
               height: 40.h,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/icons/person.png"))),
+              decoration: BoxDecoration(
+                  image: DecorationImage(image: NetworkImage(img))),
             ),
           )
         ],
@@ -224,14 +225,14 @@ Widget _reusableMenuText(String text,
   );
 }
 
-Widget courseGrid() {
+Widget courseGrid(CourseItem item) {
   return Container(
     padding: const EdgeInsets.all(12),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(15.w),
-      image: const DecorationImage(
+      image: DecorationImage(
         fit: BoxFit.fill,
-        image: AssetImage("assets/icons/Image(2).png"),
+        image: NetworkImage("${AppConstants.SERVER_UPLOADS}${item.thumbnail}"),
       ),
     ),
     child: Column(
@@ -240,7 +241,7 @@ Widget courseGrid() {
       children: [
         Container(
           child: Text(
-            "Best Course for IT ",
+            item.name ?? "",
             maxLines: 1,
             overflow: TextOverflow.fade,
             textAlign: TextAlign.left,
@@ -254,7 +255,7 @@ Widget courseGrid() {
         Container(
           margin: EdgeInsets.only(top: 5.h),
           child: Text(
-            "Flutter best course ",
+            item.description ?? "",
             maxLines: 1,
             overflow: TextOverflow.fade,
             textAlign: TextAlign.left,

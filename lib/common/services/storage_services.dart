@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_app/common/entities/user.dart';
 import 'package:shop_app/common/values/constants.dart';
 
 class StorageService {
@@ -30,5 +33,13 @@ class StorageService {
 
   Future<bool> remove(String key) {
     return _prefs.remove(key);
+  }
+
+  UserItem? getUserProfile() {
+    var profileOffline = _prefs.getString(AppConstants.USER_PROFILE_INFO) ?? "";
+    if (profileOffline.isNotEmpty) {
+      return UserItem.fromJson(jsonDecode(profileOffline));
+    }
+    return null;
   }
 }
