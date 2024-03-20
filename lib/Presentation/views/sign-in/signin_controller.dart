@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shop_app/Presentation/views/home/home_controller.dart';
 import 'package:shop_app/Presentation/views/sign-in/bloc/signin_bloc.dart';
 import 'package:shop_app/common/apis/user_api.dart';
 import 'package:shop_app/common/entities/user.dart';
@@ -70,7 +71,6 @@ class SignInController {
     );
     var result = await UserAPI.login(param: loginRequestEntity);
 
-    print(result.code);
     if (result.code == 200) {
       try {
         Global.storageService.setString(
@@ -78,8 +78,11 @@ class SignInController {
         Global.storageService
             .setString(AppConstants.USER_TOKEN_KEY, result.data!.access_token!);
         EasyLoading.dismiss();
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/myHomePage', (route) => false);
+        if (context.mounted) {
+          await HomeController(context: context).init();
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/myHomePage', (route) => false);
+        }
       } catch (e) {
         print(e);
         toastInfo(msg: "Something went wrong");

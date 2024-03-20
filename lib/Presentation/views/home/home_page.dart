@@ -5,6 +5,8 @@ import 'package:shop_app/Presentation/views/home/bloc/home_bloc.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_states.dart';
 import 'package:shop_app/Presentation/views/home/home_controller.dart';
 import 'package:shop_app/Presentation/views/home/widgets/home_page_widgets.dart';
+import 'package:shop_app/common/entities/user.dart';
+import 'package:shop_app/common/routes/routes.dart';
 import 'package:shop_app/common/values/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,22 +17,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late HomeController _homeController;
+  late UserItem? userProfile;
   @override
   void initState() {
-    _homeController = HomeController(context: context);
-    _homeController.init();
+    userProfile = HomeController(context: context).userProfile;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _homeController.userProfile != null
+    return userProfile != null
         ? Scaffold(
             backgroundColor: Colors.white,
-            appBar: buildHomeAppBar(_homeController.userProfile!.avatar!),
+            appBar: buildHomeAppBar(userProfile!.avatar!),
             body: BlocBuilder<HomePageBlocs, HomepageStates>(
               builder: (context, state) {
+                if (state.courseItems.isEmpty) {
+                  HomeController(context: context).init();
+                }
                 return Container(
                   margin: EdgeInsets.symmetric(
                     horizontal: 25.w,
@@ -43,9 +47,8 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.primaryThirdElementText),
                       ),
                       SliverToBoxAdapter(
-                          child: homePageText(
-                              _homeController.userProfile!.name ?? "",
-                              top: 5.h)),
+                          child:
+                              homePageText(userProfile!.name ?? "", top: 5.h)),
                       SliverPadding(
                         padding: EdgeInsets.only(top: 20.h),
                       ),
@@ -64,7 +67,15 @@ class _HomePageState extends State<HomePage> {
                           delegate: SliverChildBuilderDelegate(
                             childCount: state.courseItems.length,
                             (context, index) => GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      AppRoutes.COURSE_DETAILS,
+                                      arguments: {
+                                        "id": state.courseItems
+                                            .elementAt(index)
+                                            .id
+                                      });
+                                },
                                 child: courseGrid(state.courseItems[index])),
                           ),
                         ),

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/Presentation/courses/bloc/course_blocs.dart';
+import 'package:shop_app/Presentation/courses/course_details.dart';
 import 'package:shop_app/Presentation/views/application/application_page.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_bloc.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_bloc.dart';
@@ -42,7 +44,11 @@ class AppPages {
     PageEntity(
         route: AppRoutes.SETTINGS,
         page: const SettingsView(),
-        bloc: BlocProvider(create: (_) => SettingsBlocs()))
+        bloc: BlocProvider(create: (_) => SettingsBlocs())),
+    PageEntity(
+        route: AppRoutes.COURSE_DETAILS,
+        page: const CourseDetails(),
+        bloc: BlocProvider(create: (_) => CourseDetailsBloc()))
   ];
   static get allBlocProviders => [
         BlocProvider(create: (context) => WelcomeBloc()),
@@ -50,7 +56,8 @@ class AppPages {
         BlocProvider(create: (context) => RegisterBloc()),
         BlocProvider(create: (context) => AppBlocs()),
         BlocProvider(create: (context) => HomePageBlocs()),
-        BlocProvider(create: (context) => SettingsBlocs())
+        BlocProvider(create: (context) => SettingsBlocs()),
+        BlocProvider(create: (context) => CourseDetailsBloc())
       ];
 
   static MaterialPageRoute GenerateRouteSettings(RouteSettings settings) {
