@@ -1,9 +1,9 @@
 import 'package:shop_app/common/entities/entities.dart';
 
-class CourseDetailsStates {
+class CourseStates {
   final CourseItem? courseItem;
-  const CourseDetailsStates({this.courseItem});
-  CourseDetailsStates copyWith(CourseItem? courseItem) {
-    return CourseDetailsStates(courseItem: courseItem ?? this.courseItem);
+  const CourseStates({this.courseItem});
+  CourseStates copyWith(CourseItem? courseItem) {
+    return CourseStates(courseItem: courseItem ?? this.courseItem);
   }
 }

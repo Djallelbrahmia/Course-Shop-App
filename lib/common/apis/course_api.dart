@@ -6,4 +6,18 @@ class CourseAPI {
     var response = await HttpUtil().post('/courseList');
     return CourseListResponseEntity.fromJson(response);
   }
+
+  static Future<CourseDetailResponseEntity> courseDetails(
+      CourseRequestEntity? params) async {
+    var response = await HttpUtil()
+        .post('/courseDetail', queryParametetrs: params?.toJson());
+    return CourseDetailResponseEntity.fromJson(response);
+  }
+
+  static Future<BaseResponseEntity> coursePay(
+      {CourseRequestEntity? params}) async {
+    var response =
+        await HttpUtil().post('/checkout', queryParametetrs: params?.toJson());
+    return BaseResponseEntity.fromJson(response);
+  }
 }

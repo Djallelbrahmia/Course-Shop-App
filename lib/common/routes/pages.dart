@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/Presentation/courses/bloc/course_blocs.dart';
-import 'package:shop_app/Presentation/courses/course_details.dart';
+import 'package:shop_app/Presentation/courses/course_detail/bloc/course_d_blocs.dart';
+import 'package:shop_app/Presentation/courses/course_detail/course_details.dart';
+import 'package:shop_app/Presentation/courses/course_detail/payWebView/bloc/payview_bloc.dart';
+import 'package:shop_app/Presentation/courses/course_detail/payWebView/pay_webview.dart';
 import 'package:shop_app/Presentation/views/application/application_page.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_bloc.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_bloc.dart';
@@ -48,7 +49,11 @@ class AppPages {
     PageEntity(
         route: AppRoutes.COURSE_DETAILS,
         page: const CourseDetails(),
-        bloc: BlocProvider(create: (_) => CourseDetailsBloc()))
+        bloc: BlocProvider(create: (_) => CourseDetailsBloc())),
+    PageEntity(
+        route: AppRoutes.PAY_WEB_VIEW,
+        page: const PayWebView(),
+        bloc: BlocProvider(create: (_) => PayWebViewBloc()))
   ];
   static get allBlocProviders => [
         BlocProvider(create: (context) => WelcomeBloc()),
@@ -57,6 +62,7 @@ class AppPages {
         BlocProvider(create: (context) => AppBlocs()),
         BlocProvider(create: (context) => HomePageBlocs()),
         BlocProvider(create: (context) => SettingsBlocs()),
+        BlocProvider(create: (context) => PayWebViewBloc()),
         BlocProvider(create: (context) => CourseDetailsBloc())
       ];
 

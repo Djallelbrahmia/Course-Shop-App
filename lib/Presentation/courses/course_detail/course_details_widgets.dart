@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app/Presentation/views/common_widgets.dart';
 import 'package:shop_app/common/values/colors.dart';
+import 'package:shop_app/common/values/constants.dart';
 import 'package:shop_app/common/widgets/base_text_widget.dart';
 
 AppBar buildCourseDetailsAppBar() {
@@ -10,16 +11,20 @@ AppBar buildCourseDetailsAppBar() {
   );
 }
 
-Widget thumbNail() {
+Widget thumbNail({img}) {
   return Container(
     width: 325.w,
     height: 200.h,
-    decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage("assets/icons/Image(1).png"))),
+    decoration: BoxDecoration(
+        image: DecorationImage(
+            image: NetworkImage('${AppConstants.SERVER_UPLOADS}$img'))),
   );
 }
 
-Widget menuViewCourseDetails() {
+Widget menuViewCourseDetails({
+  int nOfPeople = 0,
+  int nOfReview = 0,
+}) {
   return Container(
     width: 325.w,
     child: Row(
@@ -41,8 +46,8 @@ Widget menuViewCourseDetails() {
             ),
           ),
         ),
-        _iconAndNum("assets/icons/people.png", 0),
-        _iconAndNum("assets/icons/star.png", 0)
+        _iconAndNum("assets/icons/people.png", nOfPeople),
+        _iconAndNum("assets/icons/star.png", nOfReview)
       ],
     ),
   );
@@ -141,12 +146,13 @@ Widget courseSummaryTitle() {
   return reusableSubtitleText('The course includes', fontSize: 14.sp);
 }
 
-var imageInfo = <String, String>{
-  "36 Hours Video": "video_detail.png",
-  "Total 30 Lessons": "file_detail.png",
-  "67 Downloadable Ressources": "download_detail.png",
-};
-Widget courseSummaryView(BuildContext context) {
+Widget courseSummaryView(BuildContext context,
+    {required int vLength, required int nLesson, required int dRessources}) {
+  var imageInfo = <String, String>{
+    "$vLength Hours Video": "video_detail.png",
+    "Total $nLesson Lessons": "file_detail.png",
+    "$nLesson Downloadable Ressources": "download_detail.png",
+  };
   return Column(
     children: [
       ...List.generate(
