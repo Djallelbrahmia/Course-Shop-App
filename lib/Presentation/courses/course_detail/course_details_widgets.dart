@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_app/Presentation/views/common_widgets.dart';
+import 'package:shop_app/Presentation/courses/course_detail/bloc/course_d_states.dart';
+import 'package:shop_app/common/routes/routes.dart';
 import 'package:shop_app/common/values/colors.dart';
 import 'package:shop_app/common/values/constants.dart';
 import 'package:shop_app/common/widgets/base_text_widget.dart';
@@ -74,58 +75,71 @@ Widget _iconAndNum(String iconName, int num) {
   );
 }
 
-Widget courseLessonList() {
-  return Container(
-    width: 325.w,
-    height: 80.h,
-    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.w),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 2,
-              blurRadius: 3,
-              offset: const Offset(0, 1)),
-        ]),
-    child: InkWell(
-      onTap: () {},
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 60.w,
-            height: 60.h,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/icons/Image(1).png"))),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _listContainer(),
-              _listContainer(
-                  fontSize: 10,
-                  color: AppColors.primaryThirdElementText,
-                  fontWeight: FontWeight.normal)
-            ],
-          ),
-          Container(
-            child: Image(
-                width: 24.w,
-                height: 24.h,
-                image: AssetImage("assets/icons/arrow_right.png")),
-          )
-        ],
-      ),
-    ),
+Widget courseLessonList(CourseDetailsStates states) {
+  return SingleChildScrollView(
+    child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: states.lessonItems.length,
+        itemBuilder: (context, index) {
+          return Container(
+            width: 325.w,
+            height: 80.h,
+            margin: EdgeInsets.only(top: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.w),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 3,
+                      offset: const Offset(0, 1)),
+                ]),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(AppRoutes.LESSONS_DETAILS,
+                    arguments: {"id": states.lessonItems[index].id});
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 60.w,
+                    height: 60.h,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.contain,
+                            image: NetworkImage(
+                                states.lessonItems[index].thumbnail ?? ""))),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _listContainer(states.lessonItems[index].name ?? ""),
+                      _listContainer(
+                          states.lessonItems[index].description ?? "",
+                          fontSize: 10,
+                          color: AppColors.primaryThirdElementText,
+                          fontWeight: FontWeight.normal)
+                    ],
+                  ),
+                  Container(
+                    child: Image(
+                        width: 24.w,
+                        height: 24.h,
+                        image: AssetImage("assets/icons/arrow_right.png")),
+                  )
+                ],
+              ),
+            ),
+          );
+        }),
   );
 }
 
-Widget _listContainer(
+Widget _listContainer(String name,
     {double fontSize = 13,
     Color color = AppColors.primaryText,
     FontWeight fontWeight = FontWeight.bold}) {
@@ -133,7 +147,7 @@ Widget _listContainer(
     margin: EdgeInsets.only(left: 6.w),
     width: 200.w,
     child: Text(
-      "UI Design",
+      name,
       overflow: TextOverflow.clip,
       maxLines: 1,
       style: TextStyle(

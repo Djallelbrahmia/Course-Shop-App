@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shop_app/Presentation/views/home/home_controller.dart';
 import 'package:shop_app/Presentation/views/sign-in/bloc/signin_bloc.dart';
 import 'package:shop_app/common/apis/user_api.dart';
@@ -16,6 +17,7 @@ class SignInController {
   final BuildContext context;
   const SignInController({required this.context});
   void handleSignIn(String type) async {
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
     try {
       if (type == "email") {
         final state = context.read<SignInBloc>().state;
@@ -49,6 +51,26 @@ class SignInController {
           String? photoUrl = "${AppConstants.SERVER_URL}/uploads/default.png";
           print(photoUrl);
           await credential.user?.updatePhotoURL(photoUrl);
+          LoginRequestEntity loginRequestEntity = LoginRequestEntity(
+              avatar: photoUrl,
+              open_id: id,
+              name: displayName,
+              email: email,
+              type: 1);
+          asyncPostAllData(loginRequestEntity);
+        }
+      }
+      if (type == "google") {
+        final user = await _googleSignIn.signIn();
+        if (user == null) {
+          toastInfo(msg: "Wrong Credential");
+          return;
+        } else {
+          String? displayName = user.displayName;
+          String? email = user.email;
+          String? id = user.id;
+          String? photoUrl =
+              user.photoUrl ?? "${AppConstants.SERVER_URL}/uploads/default.png";
           LoginRequestEntity loginRequestEntity = LoginRequestEntity(
               avatar: photoUrl,
               open_id: id,

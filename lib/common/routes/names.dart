@@ -7,4 +7,5 @@ class AppRoutes {
   static const SETTINGS = "/settings";
   static const COURSE_DETAILS = "/course_details";
   static const PAY_WEB_VIEW = "/pay_web_view";
+  static const LESSONS_DETAILS = "/lesson_details";
 }

@@ -8,3 +8,8 @@ class TriggerCourseDetail extends CourseDetailEvents {
   final CourseItem courseItem;
   const TriggerCourseDetail(this.courseItem) : super();
 }
+
+class TriggerLessonList extends CourseDetailEvents {
+  final List<LessonItem> lessons;
+  const TriggerLessonList(this.lessons) : super();
+}

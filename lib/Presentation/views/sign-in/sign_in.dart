@@ -8,6 +8,7 @@ import 'package:shop_app/Presentation/views/sign-in/bloc/signin_states.dart';
 import 'package:shop_app/Presentation/views/sign-in/signin_controller.dart';
 import 'package:shop_app/Presentation/views/sign-in/widgets/app_bar.dart';
 import 'package:shop_app/common/values/colors.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -62,7 +63,7 @@ class _SignInViewState extends State<SignInView> {
                       ],
                     ),
                   ),
-                  _forgetPassword(),
+                  _forgetPassword(context),
                   buildLogInButton("Login", "login", () {
                     SignInController(context: context).handleSignIn("email");
                   }),
@@ -79,13 +80,15 @@ class _SignInViewState extends State<SignInView> {
   }
 }
 
-Widget _forgetPassword() {
+Widget _forgetPassword(BuildContext context) {
   return Container(
     width: 260.w,
     height: 44.h,
     padding: EdgeInsets.only(left: 25.w),
     child: GestureDetector(
-      onTap: () {},
+      onTap: () {
+        fui.showForgotPasswordScreen(context: context);
+      },
       child: Text(
         "Forget Password",
         style: TextStyle(

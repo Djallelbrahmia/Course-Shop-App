@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: AppPages.allBlocProviders,
       child: ScreenUtilInit(
+        minTextAdapt: true,
+        rebuildFactor: (__, _) => true,
         designSize: const Size(375, 812),
         builder: (context, child) => MaterialApp(
           builder: EasyLoading.init(),

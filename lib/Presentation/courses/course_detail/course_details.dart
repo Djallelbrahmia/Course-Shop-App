@@ -82,7 +82,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                             SizedBox(
                               height: 20.h,
                             ),
-                            courseLessonList()
+                            courseLessonList(state)
                           ],
                         ),
                       ),

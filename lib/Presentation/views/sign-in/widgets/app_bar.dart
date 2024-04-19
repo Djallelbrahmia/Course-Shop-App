@@ -16,7 +16,7 @@ AppBar buildAppBar(String type) {
       style: TextStyle(
           color: AppColors.primaryText,
           fontSize: 16.sp,
-          fontWeight: FontWeight.normal),
+          fontWeight: FontWeight.bold),
     ),
   );
 }

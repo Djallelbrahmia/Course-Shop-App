@@ -4,6 +4,8 @@ import 'package:shop_app/Presentation/courses/course_detail/bloc/course_d_blocs.
 import 'package:shop_app/Presentation/courses/course_detail/course_details.dart';
 import 'package:shop_app/Presentation/courses/course_detail/payWebView/bloc/payview_bloc.dart';
 import 'package:shop_app/Presentation/courses/course_detail/payWebView/pay_webview.dart';
+import 'package:shop_app/Presentation/courses/lesson/bloc/lesson_bloc.dart';
+import 'package:shop_app/Presentation/courses/lesson/lesson_detail.dart';
 import 'package:shop_app/Presentation/views/application/application_page.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_bloc.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_bloc.dart';
@@ -53,7 +55,11 @@ class AppPages {
     PageEntity(
         route: AppRoutes.PAY_WEB_VIEW,
         page: const PayWebView(),
-        bloc: BlocProvider(create: (_) => PayWebViewBloc()))
+        bloc: BlocProvider(create: (_) => PayWebViewBloc())),
+    PageEntity(
+        route: AppRoutes.LESSONS_DETAILS,
+        page: const LessonDetail(),
+        bloc: BlocProvider(create: (_) => LessonBlocs())),
   ];
   static get allBlocProviders => [
         BlocProvider(create: (context) => WelcomeBloc()),
@@ -63,6 +69,7 @@ class AppPages {
         BlocProvider(create: (context) => HomePageBlocs()),
         BlocProvider(create: (context) => SettingsBlocs()),
         BlocProvider(create: (context) => PayWebViewBloc()),
+        BlocProvider(create: (_) => LessonBlocs()),
         BlocProvider(create: (context) => CourseDetailsBloc())
       ];
 

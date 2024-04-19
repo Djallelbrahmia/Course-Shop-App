@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_app/Presentation/views/sign-in/signin_controller.dart';
 import 'package:shop_app/common/values/colors.dart';
 
 Widget buildThirdPartyLogin(BuildContext context) {
@@ -9,17 +10,19 @@ Widget buildThirdPartyLogin(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _reusableIcons("google"),
-        _reusableIcons("facebook"),
-        _reusableIcons("apple")
+        _reusableIcons("google", context),
+        _reusableIcons("facebook", context),
+        _reusableIcons("apple", context)
       ],
     ),
   );
 }
 
-Widget _reusableIcons(String iconName) {
+Widget _reusableIcons(String iconName, BuildContext context) {
   return GestureDetector(
-    onTap: () {},
+    onTap: () {
+      SignInController(context: context).handleSignIn("google");
+    },
     child: SizedBox(
       width: 40.w,
       height: 40.w,

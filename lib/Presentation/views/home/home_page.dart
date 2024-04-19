@@ -30,60 +30,65 @@ class _HomePageState extends State<HomePage> {
         ? Scaffold(
             backgroundColor: Colors.white,
             appBar: buildHomeAppBar(userProfile!.avatar!),
-            body: BlocBuilder<HomePageBlocs, HomepageStates>(
-              builder: (context, state) {
-                if (state.courseItems.isEmpty) {
-                  HomeController(context: context).init();
-                }
-                return Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 25.w,
-                  ),
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: homePageText("Hello",
-                            top: 20.h,
-                            color: AppColors.primaryThirdElementText),
-                      ),
-                      SliverToBoxAdapter(
-                          child:
-                              homePageText(userProfile!.name ?? "", top: 5.h)),
-                      SliverPadding(
-                        padding: EdgeInsets.only(top: 20.h),
-                      ),
-                      SliverToBoxAdapter(child: searchView()),
-                      SliverToBoxAdapter(child: slidersView(context, state)),
-                      SliverToBoxAdapter(child: menuView()),
-                      SliverPadding(
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
-                        sliver: SliverGrid(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 15.h,
-                                  crossAxisSpacing: 15.h,
-                                  childAspectRatio: 1.6),
-                          delegate: SliverChildBuilderDelegate(
-                            childCount: state.courseItems.length,
-                            (context, index) => GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                      AppRoutes.COURSE_DETAILS,
-                                      arguments: {
-                                        "id": state.courseItems
-                                            .elementAt(index)
-                                            .id
-                                      });
-                                },
-                                child: courseGrid(state.courseItems[index])),
+            body: RefreshIndicator(
+              onRefresh: () {
+                return HomeController(context: context).init();
+              },
+              child: BlocBuilder<HomePageBlocs, HomepageStates>(
+                builder: (context, state) {
+                  if (state.courseItems.isEmpty) {
+                    HomeController(context: context).init();
+                  }
+                  return Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 25.w,
+                    ),
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: homePageText("Hello",
+                              top: 20.h,
+                              color: AppColors.primaryThirdElementText),
+                        ),
+                        SliverToBoxAdapter(
+                            child: homePageText(userProfile!.name ?? "",
+                                top: 5.h)),
+                        SliverPadding(
+                          padding: EdgeInsets.only(top: 20.h),
+                        ),
+                        SliverToBoxAdapter(child: searchView()),
+                        SliverToBoxAdapter(child: slidersView(context, state)),
+                        SliverToBoxAdapter(child: menuView()),
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(vertical: 8.h),
+                          sliver: SliverGrid(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 15.h,
+                                    crossAxisSpacing: 15.h,
+                                    childAspectRatio: 1.6),
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: state.courseItems.length,
+                              (context, index) => GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        AppRoutes.COURSE_DETAILS,
+                                        arguments: {
+                                          "id": state.courseItems
+                                              .elementAt(index)
+                                              .id
+                                        });
+                                  },
+                                  child: courseGrid(state.courseItems[index])),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           )
         : Container();
