@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/Presentation/courses/course_detail/bloc/course_d_blocs.dart';
-import 'package:shop_app/Presentation/courses/course_detail/course_details.dart';
-import 'package:shop_app/Presentation/courses/course_detail/payWebView/bloc/payview_bloc.dart';
-import 'package:shop_app/Presentation/courses/course_detail/payWebView/pay_webview.dart';
-import 'package:shop_app/Presentation/courses/lesson/bloc/lesson_bloc.dart';
-import 'package:shop_app/Presentation/courses/lesson/lesson_detail.dart';
+import 'package:shop_app/Presentation/views/courses/course_detail/bloc/course_d_blocs.dart';
+import 'package:shop_app/Presentation/views/courses/course_detail/course_details.dart';
+import 'package:shop_app/Presentation/views/courses/course_detail/payWebView/bloc/payview_bloc.dart';
+import 'package:shop_app/Presentation/views/courses/course_detail/payWebView/pay_webview.dart';
+import 'package:shop_app/Presentation/views/courses/lesson/bloc/lesson_bloc.dart';
+import 'package:shop_app/Presentation/views/courses/lesson/lesson_detail.dart';
+import 'package:shop_app/Presentation/views/profile/buy_courses/bloc/buy_courses_bloc.dart';
+import 'package:shop_app/Presentation/views/profile/buy_courses/buy_courses.dart';
+import 'package:shop_app/Presentation/views/profile/mycourses/bloc/mycourses_bloc.dart';
+import 'package:shop_app/Presentation/views/profile/mycourses/my_courses.dart';
 import 'package:shop_app/Presentation/views/application/application_page.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_bloc.dart';
 import 'package:shop_app/Presentation/views/home/bloc/home_bloc.dart';
 import 'package:shop_app/Presentation/views/home/home_page.dart';
+import 'package:shop_app/Presentation/views/profile/bloc/profile_bloc.dart';
+import 'package:shop_app/Presentation/views/profile/payment_details/cubit/payment_details_cubit.dart';
+import 'package:shop_app/Presentation/views/profile/payment_details/payment_details.dart';
 import 'package:shop_app/Presentation/views/profile/settings/bloc/settings_bloc.dart';
 import 'package:shop_app/Presentation/views/profile/settings/settings.dart';
 import 'package:shop_app/Presentation/views/register/bloc/register_bloc.dart';
 import 'package:shop_app/Presentation/views/register/register_view.dart';
+import 'package:shop_app/Presentation/views/search/bloc/search_bloc.dart';
 import 'package:shop_app/Presentation/views/sign-in/bloc/signin_bloc.dart';
 import 'package:shop_app/Presentation/views/sign-in/sign_in.dart';
 import 'package:shop_app/Presentation/views/welcome/bloc/welcome_bloc.dart';
@@ -60,6 +68,18 @@ class AppPages {
         route: AppRoutes.LESSONS_DETAILS,
         page: const LessonDetail(),
         bloc: BlocProvider(create: (_) => LessonBlocs())),
+    PageEntity(
+        route: AppRoutes.MY_COURSES,
+        page: const MyCourses(),
+        bloc: BlocProvider(create: (_) => MyCourseBlocs())),
+    PageEntity(
+        route: AppRoutes.BUY_COURSES,
+        page: const BuyCourses(),
+        bloc: BlocProvider(create: (_) => BuyCourseBlocs())),
+    PageEntity(
+        route: AppRoutes.PAYMENT_DETAILS,
+        page: const PaymentDetails(),
+        bloc: BlocProvider(create: (_) => PaymentDetailsCubits())),
   ];
   static get allBlocProviders => [
         BlocProvider(create: (context) => WelcomeBloc()),
@@ -70,7 +90,12 @@ class AppPages {
         BlocProvider(create: (context) => SettingsBlocs()),
         BlocProvider(create: (context) => PayWebViewBloc()),
         BlocProvider(create: (_) => LessonBlocs()),
-        BlocProvider(create: (context) => CourseDetailsBloc())
+        BlocProvider(create: (context) => CourseDetailsBloc()),
+        BlocProvider(create: (context) => ProfileBlocs()),
+        BlocProvider(create: (context) => MyCourseBlocs()),
+        BlocProvider(create: (context) => PaymentDetailsCubits()),
+        BlocProvider(create: (context) => BuyCourseBlocs()),
+        BlocProvider(create: (context) => SearchBloc())
       ];
 
   static MaterialPageRoute GenerateRouteSettings(RouteSettings settings) {

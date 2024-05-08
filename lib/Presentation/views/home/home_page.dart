@@ -8,6 +8,7 @@ import 'package:shop_app/Presentation/views/home/widgets/home_page_widgets.dart'
 import 'package:shop_app/common/entities/user.dart';
 import 'package:shop_app/common/routes/routes.dart';
 import 'package:shop_app/common/values/colors.dart';
+import 'package:shop_app/common/widgets/search_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -56,7 +57,8 @@ class _HomePageState extends State<HomePage> {
                         SliverPadding(
                           padding: EdgeInsets.only(top: 20.h),
                         ),
-                        SliverToBoxAdapter(child: searchView()),
+                        SliverToBoxAdapter(
+                            child: searchView("Search your course")),
                         SliverToBoxAdapter(child: slidersView(context, state)),
                         SliverToBoxAdapter(child: menuView()),
                         SliverPadding(

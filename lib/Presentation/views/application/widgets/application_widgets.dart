@@ -6,12 +6,13 @@ import 'package:shop_app/Presentation/views/application/bloc/app_events.dart';
 import 'package:shop_app/Presentation/views/application/bloc/app_states.dart';
 import 'package:shop_app/Presentation/views/home/home_page.dart';
 import 'package:shop_app/Presentation/views/profile/profile.dart';
+import 'package:shop_app/Presentation/views/search/search.dart';
 import 'package:shop_app/common/values/colors.dart';
 
 Widget buildPage(int index) {
   List<Widget> _widget = [
     const HomePage(),
-    Center(child: Text("Search")),
+    const Search(),
     Center(child: Text("Course")),
     Center(child: Text("Chat")),
     ProfilePage()

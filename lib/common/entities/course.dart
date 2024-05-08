@@ -162,22 +162,22 @@ class CourseItem {
   int? follow;
   int? score;
   int? id;
-
-  CourseItem({
-    this.user_token,
-    this.name,
-    this.description,
-    this.thumbnail,
-    this.video,
-    this.price,
-    this.amount_total,
-    this.lesson_num,
-    this.video_len,
-    this.down_num,
-    this.follow,
-    this.score,
-    this.id,
-  });
+  int? status;
+  CourseItem(
+      {this.user_token,
+      this.name,
+      this.description,
+      this.thumbnail,
+      this.video,
+      this.price,
+      this.amount_total,
+      this.lesson_num,
+      this.video_len,
+      this.down_num,
+      this.follow,
+      this.score,
+      this.id,
+      this.status});
 
   factory CourseItem.fromJson(Map<String, dynamic> json) => CourseItem(
         user_token: json["user_token"],
@@ -193,6 +193,7 @@ class CourseItem {
         follow: json["follow"],
         score: json["score"],
         id: json["id"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -209,5 +210,6 @@ class CourseItem {
         "follow": follow,
         "score": score,
         "id": id,
+        "status": status,
       };
 }

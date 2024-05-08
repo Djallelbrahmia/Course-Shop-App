@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_app/Presentation/views/profile/bloc/profile_state.dart';
 import 'package:shop_app/common/routes/routes.dart';
 import 'package:shop_app/common/values/colors.dart';
 import 'package:shop_app/common/widgets/base_text_widget.dart';
@@ -26,7 +27,7 @@ AppBar builProfileAppBar() {
   );
 }
 
-Widget ProfilButtonAndEditButton() {
+Widget profilButtonAndEditButton() {
   return Container(
     alignment: Alignment.bottomRight,
     padding: EdgeInsets.only(right: 6.w),
@@ -59,7 +60,12 @@ Widget buildListView(BuildContext context) {
           imageInfo.length,
           (index) => GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(AppRoutes.SETTINGS);
+                  if (index == 0) {
+                    Navigator.of(context).pushNamed(AppRoutes.SETTINGS);
+                  }
+                  if (index == 1) {
+                    Navigator.of(context).pushNamed(AppRoutes.PAYMENT_DETAILS);
+                  }
                 },
                 child: Container(
                     margin: EdgeInsets.only(bottom: 15.h),
@@ -90,4 +96,74 @@ Widget buildListView(BuildContext context) {
               ))
     ],
   );
+}
+
+Widget buildRowView(BuildContext context) {
+  return Container(
+    margin: EdgeInsets.only(top: 20.h, bottom: 20.h, left: 25.w, right: 25.w),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _rowView("profile_video.png", "My Courses", () {
+          Navigator.of(context).pushNamed(AppRoutes.MY_COURSES);
+        }),
+        _rowView("profile_book.png", "Buy Courses", () {
+          Navigator.of(context).pushNamed(AppRoutes.BUY_COURSES);
+        }),
+        _rowView("profile_star.png", "4.9", () {})
+      ],
+    ),
+  );
+}
+
+Widget _rowView(String img, String text, void Function()? fn) {
+  return GestureDetector(
+    onTap: fn,
+    child: Container(
+      width: 100.w,
+      padding: EdgeInsets.only(top: 7.h, bottom: 7.h),
+      decoration: BoxDecoration(
+          color: AppColors.primaryElement,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 3,
+                offset: const Offset(0, 3)),
+          ],
+          borderRadius: BorderRadius.circular(15.w),
+          border: Border.all(color: AppColors.primaryElement)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 20.w,
+            height: 20.h,
+            child: Image.asset("assets/icons/$img"),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5.h),
+            child: reusableSubtitleText(text,
+                color: AppColors.primaryElementText,
+                fontSize: 11.sp,
+                fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildProfileName(ProfileStates state) {
+  return state.userProfile == null
+      ? Container()
+      : Container(
+          padding: EdgeInsets.only(left: 50.w, right: 50.w),
+          margin: EdgeInsets.only(bottom: 10.h, top: 5.h),
+          child: Text(
+            state.userProfile?.name ?? "No name given",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: AppColors.primarySecondaryElementText, fontSize: 12.sp),
+          ));
 }
